@@ -57,7 +57,6 @@ fun BottomBarComponent(navController: NavController){
                     navController.navigate("Dungeons")
                 }) {
                     Icon(imageVector = Icons.Default.Home, contentDescription = "Profile")
-
                 }
                 IconButton(onClick = {
                     navController.navigate("Monster")

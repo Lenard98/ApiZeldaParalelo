@@ -15,6 +15,6 @@ fun Dungeons() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Character")
+        Text(text = "Dungeons")
     }
 }

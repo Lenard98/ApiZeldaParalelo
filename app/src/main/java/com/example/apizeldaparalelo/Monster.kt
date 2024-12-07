@@ -15,6 +15,6 @@ fun Monster() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Character")
+        Text(text = "Monster")
     }
 }
