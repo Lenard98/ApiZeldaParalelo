@@ -30,7 +30,7 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarComponent(){
-    TopAppBar({ Text(stringResource(R.string.app_name))})
+    TopAppBar({ Text(stringResource(R.string.Aplicacion))})
 }
 
 @Composable
