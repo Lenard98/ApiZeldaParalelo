@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
@@ -35,14 +38,19 @@ fun BottomBarComponent(navController: NavController){
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceEvenly){
                 IconButton(onClick = {
-                    navController.navigate("home_screen")
+                    navController.navigate("Character")
                 }) {
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
+                    Icon(imageVector = Icons.Default.Face, contentDescription = "Home")
                 }
                 IconButton(onClick = {
-                    navController.navigate("profile_screen")
+                    navController.navigate("Game")
                 }) {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = "Profile")
+                    Icon(imageVector = Icons.Default.Build, contentDescription = "Profile")
+                }
+                IconButton(onClick = {
+                    navController.navigate("Bosses")
+                }) {
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "Profile")
                 }
             }
         }
