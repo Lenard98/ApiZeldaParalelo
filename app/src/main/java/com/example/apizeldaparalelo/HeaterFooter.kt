@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,6 +52,17 @@ fun BottomBarComponent(navController: NavController){
                     navController.navigate("Bosses")
                 }) {
                     Icon(imageVector = Icons.Default.Close, contentDescription = "Profile")
+                }
+                IconButton(onClick = {
+                    navController.navigate("Dungeons")
+                }) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = "Profile")
+
+                }
+                IconButton(onClick = {
+                    navController.navigate("Monster")
+                }) {
+                    Icon(imageVector = Icons.Default.Warning, contentDescription = "Profile")
                 }
             }
         }

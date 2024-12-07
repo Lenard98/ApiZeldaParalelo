@@ -34,6 +34,12 @@ fun NavigationController(startDestination: String = "Character") {
                 composable(route = "Bosses") {
                     Bosses()
                 }
+                composable(route = "Dungeons") {
+                    Dungeons()
+                }
+                composable(route = "Monster") {
+                    Monster()
+                }
             }
         }
     }
