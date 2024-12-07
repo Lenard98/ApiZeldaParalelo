@@ -3,6 +3,7 @@ package com.example.apizeldaparalelo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,71 +30,11 @@ import com.example.apizeldaparalelo.ui.theme.ApiZeldaParaleloTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             ApiZeldaParaleloTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                ) {
-                    Modifier .fillMaxSize()
-                    MaterialTheme.colorScheme.background
-                    Local()
-                }
+                NavigationController()
             }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Local() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            item {
-                ElevatedCard(
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Black
-                    ),
-                    modifier = Modifier.size(width = 700.dp, height = 500.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "Nirvana: IN UTERO",
-                            modifier = Modifier.padding(16.dp),
-                            color = Color.White,
-                            textAlign = TextAlign.Center
-                        )
-
-                        Image(
-                            painter = painterResource(R.drawable.ic_launcher_background),
-                            contentDescription = "xd1",
-
-                            )
-
-                        Text(
-                            text = "In Utero es el tercer y último álbum de estudio de la banda estadounidense de grunge Nirvana, lanzado en septiembre de 1993 por DGC Records.",
-                            modifier = Modifier.padding(16.dp),
-                            color = Color.White,
-                            textAlign = TextAlign.Left
-                        )
-                    }
-                }
-            }
-
-
-
-
         }
     }
 }
