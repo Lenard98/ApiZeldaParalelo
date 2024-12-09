@@ -15,7 +15,6 @@ import com.example.apizeldaparalelo.Modelos.Game
 import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class) // Anotación para suprimir la advertencia
 @Composable
 fun GameScreen(viewModel: GameViewModel) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -29,19 +28,12 @@ fun GameScreen(viewModel: GameViewModel) {
             .background(color = Color(0, 150, 23)) // Fondo verde
             .padding(16.dp)
     ) {
-        // Barra de búsqueda con OutlinedTextField
+        // Barra de búsqueda sin color
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             label = { Text("Buscar juegos", color = Color.Black) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                focusedBorderColor = Color.Black,
-                unfocusedBorderColor = Color.Black
-            )
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -86,13 +78,13 @@ fun GameItem(game: Game) {
             Text(
                 text = game.name,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.Black, // Color del texto del nombre del juego
+                color = Color.Black, // Mantener el color del texto
                 overflow = TextOverflow.Visible
             )
             Text(
                 text = "Desarrollador: ${game.developer}",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Black // Color del texto
+                color = Color.Black
             )
             Text(
                 text = "Publicado por: ${game.publisher}",
@@ -108,11 +100,12 @@ fun GameItem(game: Game) {
             Text(
                 text = game.description,
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Black, // Color del texto de la descripción
+                color = Color.Black,
                 overflow = TextOverflow.Visible
             )
         }
     }
 }
+
 
 
