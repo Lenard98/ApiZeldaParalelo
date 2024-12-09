@@ -21,14 +21,12 @@ fun GameScreen(viewModel: GameViewModel) {
     val games by viewModel.games.collectAsState(initial = emptyList())
     val errorMessage by viewModel.error.collectAsState()
 
-    // Fondo de pantalla
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0, 150, 23)) // Fondo verde
+            .background(color = Color(0, 150, 23))
             .padding(16.dp)
     ) {
-        // Barra de búsqueda sin color
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
@@ -38,7 +36,6 @@ fun GameScreen(viewModel: GameViewModel) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Mostrar mensaje de error si existe
         errorMessage?.let {
             Snackbar(
                 modifier = Modifier.padding(8.dp),
@@ -47,7 +44,6 @@ fun GameScreen(viewModel: GameViewModel) {
             )
         }
 
-        // Lista de juegos
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             val filteredGames = games.filter {
                 it.name.contains(searchQuery.text, ignoreCase = true)
@@ -59,7 +55,6 @@ fun GameScreen(viewModel: GameViewModel) {
         }
     }
 
-    // Llamada inicial a la API
     LaunchedEffect(Unit) {
         viewModel.fetchGames()
     }
@@ -72,13 +67,13 @@ fun GameItem(game: Game) {
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(245, 241, 99)) // Color de la card
+        colors = CardDefaults.cardColors(containerColor = Color(245, 241, 99))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = game.name,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.Black, // Mantener el color del texto
+                color = Color.Black,
                 overflow = TextOverflow.Visible
             )
             Text(
