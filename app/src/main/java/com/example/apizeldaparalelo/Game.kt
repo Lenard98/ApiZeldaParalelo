@@ -15,7 +15,7 @@ import com.example.apizeldaparalelo.Modelos.Game
 import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class) // Anotación para suprimir la advertencia
 @Composable
 fun GameScreen(viewModel: GameViewModel) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -26,10 +26,10 @@ fun GameScreen(viewModel: GameViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0, 150, 23))
+            .background(color = Color(0, 150, 23)) // Fondo verde
             .padding(16.dp)
     ) {
-        // Barra de búsqueda
+        // Barra de búsqueda con OutlinedTextField
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
@@ -40,8 +40,7 @@ fun GameScreen(viewModel: GameViewModel) {
                 unfocusedLabelColor = Color.Black,
                 cursorColor = Color.Black,
                 focusedBorderColor = Color.Black,
-                unfocusedBorderColor = Color.Black,
-
+                unfocusedBorderColor = Color.Black
             )
         )
 
@@ -87,13 +86,13 @@ fun GameItem(game: Game) {
             Text(
                 text = game.name,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
+                color = Color.Black, // Color del texto del nombre del juego
                 overflow = TextOverflow.Visible
             )
             Text(
                 text = "Desarrollador: ${game.developer}",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Black
+                color = Color.Black // Color del texto
             )
             Text(
                 text = "Publicado por: ${game.publisher}",
@@ -109,14 +108,11 @@ fun GameItem(game: Game) {
             Text(
                 text = game.description,
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Black,
+                color = Color.Black, // Color del texto de la descripción
                 overflow = TextOverflow.Visible
             )
         }
     }
 }
-
-
-
 
 
