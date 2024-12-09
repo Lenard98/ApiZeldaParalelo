@@ -3,6 +3,8 @@ package com.example.apizeldaparalelo.implementacionAPI
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.apizeldaparalelo.Modelos.Game
+import com.example.apizeldaparalelo.Modelos.Monster
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -34,6 +36,30 @@ class GameViewModel(private val api: ApiServices) : ViewModel() {
                 // Aquí se maneja el error si la API falla o si hay problemas de red
                 _error.value = "Error: ${e.message}"
                 Log.e("GameViewModel", "Error al realizar la solicitud: ${e.message}", e)
+            }
+        }
+    }
+}
+
+class MonsterViewModel(private val api: ApiServices) : ViewModel() {
+
+    private val _monsters = MutableStateFlow<List<Monster>>(emptyList())
+    val monsters: StateFlow<List<Monster>> get() = _monsters
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> get() = _error
+
+    fun fetchMonsters(limit: Int = 20) {
+        viewModelScope.launch {
+            try {
+                val response = api.getMonsters(limit)
+                if (response.success) {
+                    _monsters.value = response.data
+                } else {
+                    _error.value = "Error: No se pudieron cargar los monstruos"
+                }
+            } catch (e: Exception) {
+                _error.value = "Error: ${e.message}"
             }
         }
     }

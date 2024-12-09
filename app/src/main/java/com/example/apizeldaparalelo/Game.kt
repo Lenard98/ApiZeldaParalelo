@@ -1,31 +1,48 @@
 package com.example.apizeldaparalelo
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.apizeldaparalelo.implementacionAPI.Game
+import com.example.apizeldaparalelo.Modelos.Game
 import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(viewModel: GameViewModel) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
-    val games by viewModel.games.collectAsState(initial = emptyList()) // Observa los juegos cargados
-    val errorMessage by viewModel.error.collectAsState() // Observa los posibles errores
+    val games by viewModel.games.collectAsState(initial = emptyList())
+    val errorMessage by viewModel.error.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    // Fondo de pantalla
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0, 150, 23))
+            .padding(16.dp)
+    ) {
         // Barra de búsqueda
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            label = { Text("Buscar juegos") },
-            modifier = Modifier.fillMaxWidth()
+            label = { Text("Buscar juegos", color = Color.Black) },
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedLabelColor = Color.Black,
+                unfocusedLabelColor = Color.Black,
+                cursorColor = Color.Black,
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Black,
+
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -34,7 +51,8 @@ fun GameScreen(viewModel: GameViewModel) {
         errorMessage?.let {
             Snackbar(
                 modifier = Modifier.padding(8.dp),
-                content = { Text(text = it) }
+                content = { Text(text = it, color = Color.Black) },
+                containerColor = Color.Yellow
             )
         }
 
@@ -62,36 +80,43 @@ fun GameItem(game: Game) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(245, 241, 99)) // Color de la card
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = game.name,
                 style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                color = Color.Black,
+                overflow = TextOverflow.Visible
             )
             Text(
                 text = "Desarrollador: ${game.developer}",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Black
             )
             Text(
                 text = "Publicado por: ${game.publisher}",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Black
             )
             Text(
                 text = "Fecha de lanzamiento: ${game.released_date}",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Black
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = game.description,
                 style = MaterialTheme.typography.bodySmall,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
+                color = Color.Black,
+                overflow = TextOverflow.Visible
             )
         }
     }
 }
+
+
+
 
 

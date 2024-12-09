@@ -1,4 +1,4 @@
-package com.example.apizeldaparalelo.implementacionAPI
+package com.example.apizeldaparalelo.Modelos
 data class GameResponse(
     val success: Boolean,
     val count: Int,

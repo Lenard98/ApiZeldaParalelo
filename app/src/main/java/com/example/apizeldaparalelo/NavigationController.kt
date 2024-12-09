@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apizeldaparalelo.implementacionAPI.ApiServices
 import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
+import com.example.apizeldaparalelo.implementacionAPI.MonsterViewModel
 import com.example.apizeldaparalelo.implementacionAPI.RetroFitConfig
 
 
@@ -32,13 +33,16 @@ fun NavigationController(startDestination: String = "Character") {
                 composable(route = "Character") {
                     Character()
                 }
-                composable(route = "Game") { backStackEntry ->
-                    // Usar NavBackStackEntry para obtener el ViewModel
+                composable(route = "Game") {
                     val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
-                    val viewModel: GameViewModel = remember { GameViewModel(api) }
-
-                    // Llamar a la pantalla con el ViewModel
-                    GameScreen(viewModel = viewModel)
+                    val gameViewModel: GameViewModel = remember { GameViewModel(api) }
+                    GameScreen(viewModel = gameViewModel)
+                }
+                composable(route = "Monster") {
+                    val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
+                    val monsterViewModel: MonsterViewModel = remember { MonsterViewModel(api) }
+                    val gameViewModel: GameViewModel = remember { GameViewModel(api) } // Crear aquí también el gameViewModel
+                    MonsterScreen(viewModel = monsterViewModel, gameViewModel = gameViewModel) // Pasar ambos ViewModels
                 }
                 composable(route = "Bosses") {
                     Bosses()
@@ -46,15 +50,8 @@ fun NavigationController(startDestination: String = "Character") {
                 composable(route = "Dungeons") {
                     Dungeons()
                 }
-                composable(route = "Monster") {
-                    Monster()
-                }
             }
         }
     }
 }
-
-
-
-
 

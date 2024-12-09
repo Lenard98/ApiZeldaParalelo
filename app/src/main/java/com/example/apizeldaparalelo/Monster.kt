@@ -1,20 +1,93 @@
 package com.example.apizeldaparalelo
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.example.apizeldaparalelo.Modelos.Monster
+import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
+import com.example.apizeldaparalelo.implementacionAPI.MonsterViewModel
 
 @Composable
-fun Monster() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+fun MonsterScreen(viewModel: MonsterViewModel, gameViewModel: GameViewModel) {
+    val monsters by viewModel.monsters.collectAsState(initial = emptyList())
+    val errorMessage by viewModel.error.collectAsState()
+    val games by gameViewModel.games.collectAsState(initial = emptyList())
+
+    // Crear un mapa de las URLs a los nombres de los juegos
+    val gameUrlToNameMap = games.associateBy { it.id }.mapValues { it.value.name }
+
+    // Barra de búsqueda (si es necesario)
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        // Mostrar mensaje de error
+        errorMessage?.let {
+            Snackbar(
+                modifier = Modifier.padding(8.dp),
+                content = { Text(text = it) }
+            )
+        }
+
+        // Lista de monstruos
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(monsters) { monster ->
+                // Mapear las URLs de las apariciones a los nombres de los juegos
+                val gameNames = monster.appearances.mapNotNull { url ->
+                    val gameId = url.split("/").last() // Suponiendo que el id está al final de la URL
+                    gameUrlToNameMap[gameId]
+                }
+
+                MonsterItem(monster.copy(gameNames = gameNames)) // Actualizar con los nombres de los juegos
+            }
+        }
+    }
+
+    // Llamada inicial para obtener los monstruos
+    LaunchedEffect(Unit) {
+        viewModel.fetchMonsters()
+    }
+}
+
+@Composable
+fun MonsterItem(monster: Monster) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp), // Ajustar el padding según lo necesario
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Text(text = "Monster")
+        Column(modifier = Modifier.padding(16.dp)) {
+            // Nombre del monstruo
+            Text(
+                text = monster.name,
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black,
+                overflow = TextOverflow.Visible // Asegura que el texto no se corte
+            )
+
+            // Descripción del monstruo
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = monster.description,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Black,
+                overflow = TextOverflow.Visible // El texto no se corta
+            )
+
+            // Nombres de los juegos
+            Spacer(modifier = Modifier.height(8.dp))
+            monster.gameNames.forEach { gameName ->
+                Text(
+                    text = "Aparece en: $gameName",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Black,
+                    modifier = Modifier.padding(top = 4.dp) // Añadir espacio entre los elementos
+                )
+            }
+        }
     }
 }
