@@ -24,36 +24,36 @@ fun CharacterScreen(viewModel: CharacterViewModel, gameViewModel: GameViewModel)
     val errorMessage by viewModel.error.collectAsState()
     val games by gameViewModel.games.collectAsState(initial = emptyList())
 
-    // Crear un mapa de las URLs a los nombres de los juegos
+
     val gameUrlToNameMap = games.associateBy { it.id }.mapValues { it.value.name }
 
-    // Fondo de la pantalla con el mismo color de GameScreen
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(43, 114, 24)) // Mismo color de fondo
+            .background(color = Color(43, 114, 24))
             .padding(16.dp)
     ) {
-        // Barra de búsqueda con el fondo blanco
+
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            label = { Text("Buscar personajes", color = Color.Black) }, // Etiqueta en color negro
+            label = { Text("Buscar personajes", color = Color.Black) },
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White, // Fondo blanco
+                focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
                 disabledContainerColor = Color.White,
-                focusedBorderColor = Color.Black, // Borde negro cuando está enfocado
-                unfocusedBorderColor = Color.Gray, // Borde gris cuando no está enfocado
-                focusedLabelColor = Color.Black, // Color de la etiqueta cuando está enfocado
-                unfocusedLabelColor = Color.Black, // Color de la etiqueta cuando no está enfocado
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Gray,
+                focusedLabelColor = Color.Black,
+                unfocusedLabelColor = Color.Black,
             )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Mostrar mensaje de error si existe, con los mismos colores de GameScreen
+
         errorMessage?.let {
             Snackbar(
                 modifier = Modifier.padding(8.dp),
@@ -62,49 +62,49 @@ fun CharacterScreen(viewModel: CharacterViewModel, gameViewModel: GameViewModel)
             )
         }
 
-        // Lista de personajes
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             val filteredCharacters = characters.filter {
                 it.name.contains(searchQuery.text, ignoreCase = true)
             }
 
             items(filteredCharacters) { character ->
-                // Mapear las apariciones a los nombres de los juegos
+
                 val gameNames = character.appearances.mapNotNull { url ->
                     val gameId = url.split("/").last()
                     gameUrlToNameMap[gameId]
                 }
 
-                CharacterItem(character.copy(appearances = gameNames)) // Actualizar con los nombres de los juegos
+                CharacterItem(character.copy(appearances = gameNames))
             }
         }
     }
 
-    // Llamada inicial para obtener datos
+
     LaunchedEffect(Unit) {
         viewModel.fetchCharacters()
-        gameViewModel.fetchGames() // Asegurarse de tener la lista de juegos
+        gameViewModel.fetchGames()
     }
 }
 
 @Composable
 fun CharacterItem(character: Character) {
-    // Card con el mismo color de fondo que GameScreen
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109)) // Color de fondo de la card
+        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            // Nombre del personaje en negrita
+
             Text(
                 text = character.name,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold // Aquí aplicamos la negrita
+                    fontWeight = FontWeight.Bold
                 ),
-                color = Color.Black, // Color del texto en negro
+                color = Color.Black,
                 overflow = TextOverflow.Visible
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -117,7 +117,7 @@ fun CharacterItem(character: Character) {
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Mostrar género y raza si están disponibles
+
             if (character.gender != null) {
                 Text(
                     text = "Género: ${character.gender}",
@@ -133,7 +133,7 @@ fun CharacterItem(character: Character) {
                 )
             }
 
-            // Mostrar los juegos donde aparece el personaje
+
             character.appearances.forEach { gameName ->
                 Text(
                     text = "Aparece en: $gameName",
