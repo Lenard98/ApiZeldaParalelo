@@ -6,8 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.apizeldaparalelo.R
+
 
 @Composable
 fun HomeScreen() {
@@ -28,6 +32,7 @@ fun HomeScreen() {
         Text(
             text = "APIZELDA",
             style = MaterialTheme.typography.headlineLarge.copy(color = Color.White),
+            fontFamily = zelda,
             modifier = Modifier
                 .align(Alignment.TopCenter) // Mover el texto a la parte superior
                 .padding(top = 32.dp) // Agregar un pequeño margen superior
@@ -37,6 +42,7 @@ fun HomeScreen() {
         Text(
             text = "®ADFLL",
             style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+            fontFamily = zelda,
             modifier = Modifier
                 .align(Alignment.BottomEnd) // Posicionar en la esquina inferior derecha
                 .padding(16.dp) // Agregar un margen de 16.dp
