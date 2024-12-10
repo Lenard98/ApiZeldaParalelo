@@ -1,10 +1,9 @@
 package com.example.apizeldaparalelo
 
-import TopBarComponent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apizeldaparalelo.implementacionAPI.ApiServices
-import com.example.apizeldaparalelo.implementacionAPI.BossesViewModel
 import com.example.apizeldaparalelo.implementacionAPI.CharacterViewModel
 import com.example.apizeldaparalelo.implementacionAPI.DungeonViewModel
 import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
@@ -22,7 +20,7 @@ import com.example.apizeldaparalelo.implementacionAPI.RetroFitConfig
 
 
 @Composable
-fun NavigationController(startDestination: String = "Home") {
+fun NavigationController(startDestination: String = "Bosses") {
     val navController = rememberNavController()
 
     Scaffold(
@@ -34,14 +32,11 @@ fun NavigationController(startDestination: String = "Home") {
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             NavHost(navController = navController, startDestination = startDestination) {
-                composable(route = "Home") {
-                    HomeScreen() // Pantalla de inicio
-                }
                 composable(route = "Character") {
                     val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
                     val characterViewModel: CharacterViewModel = remember { CharacterViewModel(api) }
-                    val gameViewModel: GameViewModel = remember { GameViewModel(api) }
-                    CharacterScreen(viewModel = characterViewModel, gameViewModel = gameViewModel)
+                    val gameViewModel: GameViewModel = remember { GameViewModel(api) } // Crear GameViewModel aquí también
+                    CharacterScreen(viewModel = characterViewModel, gameViewModel = gameViewModel) // Pasar ambos ViewModels
                 }
                 composable(route = "Game") {
                     val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
@@ -55,21 +50,15 @@ fun NavigationController(startDestination: String = "Home") {
                     MonsterScreen(viewModel = monsterViewModel, gameViewModel = gameViewModel)
                 }
                 composable(route = "Bosses") {
-                    val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
-                    // Inicializando los ViewModels
-                    val bossesViewModel: BossesViewModel = remember { BossesViewModel(api) }
-                    val gameViewModel: GameViewModel = remember { GameViewModel(api) }
-                    // Llamando a BossScreen pasando los ViewModels necesarios
-                    BossScreen(viewModel = bossesViewModel, gameViewModel = gameViewModel)
+                    Bosses()
                 }
                 composable(route = "Dungeons") {
                     val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
                     val dungeonViewModel: DungeonViewModel = remember { DungeonViewModel(api) }
-                    val gameViewModel: GameViewModel = remember { GameViewModel(api) }
-                    DungeonScreen(viewModel = dungeonViewModel, gameViewModel = gameViewModel)
+                    val gameViewModel: GameViewModel = remember { GameViewModel(api) } // Aquí se agrega GameViewModel
+                    DungeonScreen(viewModel = dungeonViewModel, gameViewModel = gameViewModel) // Pasar ambos ViewModels
                 }
             }
         }
     }
 }
-

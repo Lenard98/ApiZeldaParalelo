@@ -1,6 +1,5 @@
 package com.example.apizeldaparalelo.implementacionAPI
 
-import com.example.apizeldaparalelo.Modelos.BossesResponse
 import com.example.apizeldaparalelo.Modelos.CharacterResponse
 import com.example.apizeldaparalelo.Modelos.DungeonsResponse
 import com.example.apizeldaparalelo.Modelos.GameResponse
@@ -29,8 +28,10 @@ interface ApiServices {
         @Query("limit") limit: Int = 20
     ): DungeonsResponse
 
-    @GET("bosses") // Asumiendo que este es el endpoint correcto para los Bosses
-    suspend fun getBosses(
-        @Query("limit") limit: Int = 20
-    ): BossesResponse // Usa la respuesta adecuada para los Bosses
 }
+
+
+
+
+
+

@@ -98,7 +98,6 @@ class CharacterViewModel(private val api: ApiServices) : ViewModel() {
     }
 }
 
-
 class DungeonViewModel(private val api: ApiServices) : ViewModel() {
 
     private val _dungeons = MutableStateFlow<List<Dungeon>>(emptyList())
@@ -128,8 +127,4 @@ class DungeonViewModel(private val api: ApiServices) : ViewModel() {
         }
     }
 }
-
-
-
-
 
