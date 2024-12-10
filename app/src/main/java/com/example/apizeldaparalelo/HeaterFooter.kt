@@ -1,37 +1,30 @@
 package com.example.apizeldaparalelo
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.compose.ui.graphics.Color
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBarComponent(){
-    TopAppBar({ Text(stringResource(R.string.Aplicacion))})
-}
+
+
 
 @Composable
 fun BottomBarComponent(navController: NavController) {
     BottomAppBar(
+        containerColor = Color.Black,  // Fondo de la barra de navegación en negro
+        contentColor = Color.White,  // Iconos y texto en blanco
         content = {
             Row(
                 modifier = Modifier.fillMaxSize(),
@@ -41,7 +34,12 @@ fun BottomBarComponent(navController: NavController) {
                     IconButton(onClick = {
                         navController.navigate("Character")
                     }) {
-                        Icon(imageVector = Icons.Default.Face, contentDescription = "Character")
+                        // Usar icono descargado para personajes
+                        androidx.compose.foundation.Image(
+                            painter = painterResource(id = R.drawable.brutal),
+                            contentDescription = "Character",
+                            modifier = Modifier.size(24.dp) // Tamaño del icono
+                        )
                     }
                     Text(text = "Character")
                 }
@@ -49,7 +47,12 @@ fun BottomBarComponent(navController: NavController) {
                     IconButton(onClick = {
                         navController.navigate("Game")
                     }) {
-                        Icon(imageVector = Icons.Default.Build, contentDescription = "Game")
+                        // Usar icono descargado para juegos
+                        androidx.compose.foundation.Image(
+                            painter = painterResource(id = R.drawable.gamepad),
+                            contentDescription = "Game",
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                     Text(text = "Game")
                 }
@@ -57,7 +60,12 @@ fun BottomBarComponent(navController: NavController) {
                     IconButton(onClick = {
                         navController.navigate("Bosses")
                     }) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = "Bosses")
+                        // Usar icono descargado para jefes
+                        androidx.compose.foundation.Image(
+                            painter = painterResource(id = R.drawable.boss),
+                            contentDescription = "Bosses",
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                     Text(text = "Bosses")
                 }
@@ -65,7 +73,12 @@ fun BottomBarComponent(navController: NavController) {
                     IconButton(onClick = {
                         navController.navigate("Dungeons")
                     }) {
-                        Icon(imageVector = Icons.Default.Home, contentDescription = "Dungeons")
+                        // Usar icono descargado para mazmorras
+                        androidx.compose.foundation.Image(
+                            painter = painterResource(id = R.drawable.dungeons),
+                            contentDescription = "Dungeons",
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                     Text(text = "Dungeons")
                 }
@@ -73,7 +86,12 @@ fun BottomBarComponent(navController: NavController) {
                     IconButton(onClick = {
                         navController.navigate("Monster")
                     }) {
-                        Icon(imageVector = Icons.Default.Warning, contentDescription = "Monster")
+                        // Usar icono descargado para monstruos
+                        androidx.compose.foundation.Image(
+                            painter = painterResource(id = R.drawable.monster),
+                            contentDescription = "Monster",
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                     Text(text = "Monster")
                 }

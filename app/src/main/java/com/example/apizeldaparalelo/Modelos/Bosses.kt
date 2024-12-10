@@ -1,18 +1,19 @@
 package com.example.apizeldaparalelo.Modelos
 
-data class CharacterResponse(
+data class BossesResponse(
     val success: Boolean,
     val count: Int,
-    val data: List<Character>
+    val data: List<Boss>
 )
 
-data class Character(
-    val id: String,
+
+
+data class Boss(
     val name: String,
     val description: String,
-    val gender: String?,
-    val race: String?,
     val appearances: List<String>,
-    val imageUrl: String?
+    val gender: String? = null,  // Opcional
+    val race: String? = null,    // Opcional
+    val id: String
 )
 
