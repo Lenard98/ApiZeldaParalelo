@@ -22,16 +22,20 @@ class BossesViewModel(private val api: ApiServices) : ViewModel() {
     fun fetchBosses(limit: Int = 20) {
         viewModelScope.launch {
             try {
-                // Llamada al endpoint para obtener los Bosses
                 val response = api.getBosses(limit)
 
-                Log.d("BossesViewModel", "API Response: $response")
+                if (response.isSuccessful) { // Verifica si la respuesta HTTP fue exitosa
+                    val bossResponse = response.body() // Obtén el cuerpo de la respuesta
 
-                if (response.success) {
-                    _bosses.value = response.data // Asignar los bosses a la lista
+                    if (bossResponse != null && bossResponse.success) {
+                        _bosses.value = bossResponse.data
+                    } else {
+                        _error.value = "Error: No se pudieron cargar los bosses"
+                        Log.e("BossesViewModel", "Error en la respuesta del servidor")
+                    }
                 } else {
-                    _error.value = "Error: No se pudieron cargar los bosses"
-                    Log.e("BossesViewModel", "Error en la respuesta: ${response.success}")
+                    _error.value = "Error: Respuesta HTTP no exitosa"
+                    Log.e("BossesViewModel", "Error HTTP: ${response.code()}")
                 }
             } catch (e: Exception) {
                 _error.value = "Error: ${e.message}"
@@ -39,5 +43,6 @@ class BossesViewModel(private val api: ApiServices) : ViewModel() {
             }
         }
     }
+
 }
 

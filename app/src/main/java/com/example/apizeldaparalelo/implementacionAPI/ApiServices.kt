@@ -1,9 +1,12 @@
 package com.example.apizeldaparalelo.implementacionAPI
 
+import com.example.apizeldaparalelo.Modelos.Boss
+import com.example.apizeldaparalelo.Modelos.BossesResponse
 import com.example.apizeldaparalelo.Modelos.CharacterResponse
 import com.example.apizeldaparalelo.Modelos.DungeonsResponse
 import com.example.apizeldaparalelo.Modelos.GameResponse
 import com.example.apizeldaparalelo.Modelos.MonsterResponse
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -22,6 +25,10 @@ interface ApiServices {
     suspend fun getCharacters(
         @Query("limit") limit: Int = 20
     ): CharacterResponse
+    @GET("bosses")
+    suspend fun getBosses(
+        @Query("limit") limit: Int
+    ): Response<BossesResponse>
 
     @GET("dungeons")
     suspend fun getDungeons(
