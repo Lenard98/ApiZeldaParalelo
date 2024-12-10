@@ -89,57 +89,68 @@ fun CharacterScreen(viewModel: CharacterViewModel, gameViewModel: GameViewModel)
 
 @Composable
 fun CharacterItem(character: Character) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109))
+        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109)) // Igual a GameScreen
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-
             Text(
                 text = character.name,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold
-                ),
+                style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 overflow = TextOverflow.Visible
             )
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 text = character.description,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Black,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Visible
             )
+
             Spacer(modifier = Modifier.height(8.dp))
 
-
-            if (character.gender != null) {
+            character.gender?.let {
                 Text(
-                    text = "Género: ${character.gender}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Black
-                )
-            }
-            if (character.race != null) {
-                Text(
-                    text = "Raza: ${character.race}",
+                    text = "Género: $it",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Black
                 )
             }
 
 
-            character.appearances.forEach { gameName ->
+            character.race?.let {
                 Text(
-                    text = "Aparece en: $gameName",
+                    text = "Raza: $it",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 4.dp)
+                    color = Color.Black
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (character.appearances.isNotEmpty()) {
+                Text(
+                    text = "Aparece en:",
+                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                    color = Color.Black
+                )
+                character.appearances.forEach { gameName ->
+                    Text(
+                        text = "- $gameName",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Black
+                    )
+                }
+            } else {
+                Text(
+                    text = "No tiene juegos asociados",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Black
                 )
             }
         }

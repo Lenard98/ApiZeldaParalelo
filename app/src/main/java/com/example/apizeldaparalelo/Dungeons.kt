@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,10 +24,8 @@ fun DungeonScreen(viewModel: DungeonViewModel, gameViewModel: GameViewModel) {
     val errorMessage by viewModel.error.collectAsState()
     val games by gameViewModel.games.collectAsState(initial = emptyList())
 
-    // Crear un mapa de las URLs a los nombres de los juegos
     val gameUrlToNameMap = games.associateBy { it.id }.mapValues { it.value.name }
 
-    // Fondo de la pantalla con color verde
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,17 +39,16 @@ fun DungeonScreen(viewModel: DungeonViewModel, gameViewModel: GameViewModel) {
             label = { Text("Buscar dungeons", color = Color.Black) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                containerColor = Color.White, // Fondo blanco
-                focusedBorderColor = Color.Black, // Borde negro cuando está enfocado
-                unfocusedBorderColor = Color.Gray, // Borde gris cuando no está enfocado
-                focusedLabelColor = Color.Black, // Color de la etiqueta cuando está enfocado
-                unfocusedLabelColor = Color.Black // Color de la etiqueta cuando no está enfocado
+                containerColor = Color.White,
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Gray,
+                focusedLabelColor = Color.Black,
+                unfocusedLabelColor = Color.Black
             )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Mostrar mensaje de error si existe
         errorMessage?.let {
             Snackbar(
                 modifier = Modifier.padding(8.dp),
@@ -59,14 +57,12 @@ fun DungeonScreen(viewModel: DungeonViewModel, gameViewModel: GameViewModel) {
             )
         }
 
-        // Lista de dungeons
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             val filteredDungeons = dungeons.filter {
                 it.name.contains(searchQuery.text, ignoreCase = true)
             }
 
             items(filteredDungeons) { dungeon ->
-                // Mapear las apariciones a los nombres de los juegos
                 val gameNames = dungeon.appearances.mapNotNull { url ->
                     val gameId = url.split("/").last()
                     gameUrlToNameMap[gameId]
@@ -77,46 +73,58 @@ fun DungeonScreen(viewModel: DungeonViewModel, gameViewModel: GameViewModel) {
         }
     }
 
-    // Llamada inicial para obtener datos
     LaunchedEffect(Unit) {
         viewModel.fetchDungeons()
-        gameViewModel.fetchGames() // Asegurarse de tener la lista de juegos
+        gameViewModel.fetchGames()
     }
 }
 
 @Composable
 fun DungeonItem(dungeon: Dungeon) {
-    // Card con el mismo color de fondo que GameScreen
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109)) // Color de fondo de la card
+        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+
             Text(
                 text = dungeon.name,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.Black
+                color = Color.Black,
+                overflow = TextOverflow.Visible
             )
             Spacer(modifier = Modifier.height(8.dp))
+
+
             Text(
                 text = dungeon.description,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Black,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Visible
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Mostrar los juegos donde aparece el dungeon
-            dungeon.appearances.forEach { gameName ->
+            if (dungeon.appearances.isNotEmpty()) {
                 Text(
-                    text = "Aparece en: $gameName",
+                    text = "Aparece en:",
+                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                    color = Color.Black
+                )
+                dungeon.appearances.forEach { gameName ->
+                    Text(
+                        text = "- $gameName",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Black
+                    )
+                }
+            } else {
+                Text(
+                    text = "No tiene juegos asociados",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 4.dp)
+                    color = Color.Black
                 )
             }
         }

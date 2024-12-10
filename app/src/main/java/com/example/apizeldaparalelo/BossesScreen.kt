@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -86,53 +87,71 @@ fun BossScreen(viewModel: BossesViewModel, gameViewModel: GameViewModel) {
 
 @Composable
 fun BossItem(boss: Boss) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109))
+        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109)) // Fondo amarillo claro
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            // Nombre del jefe
             Text(
                 text = boss.name,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.Black
+                color = Color.Black,
+                overflow = TextOverflow.Visible // Mostrar todo el texto
             )
             Spacer(modifier = Modifier.height(8.dp))
+
+            // Descripción completa del jefe
             Text(
                 text = boss.description,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Black,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Visible // Mostrar todo el texto
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-
-            if (boss.gender != null) {
+            // Género (si está disponible)
+            boss.gender?.let {
                 Text(
-                    text = "Género: ${boss.gender}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Black
-                )
-            }
-            if (boss.race != null) {
-                Text(
-                    text = "Raza: ${boss.race}",
+                    text = "Género: $it",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Black
                 )
             }
 
-
-            boss.appearances.forEach { gameName ->
+            // Raza (si está disponible)
+            boss.race?.let {
                 Text(
-                    text = "Aparece en: $gameName",
+                    text = "Raza: $it",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 4.dp)
+                    color = Color.Black
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Juegos donde aparece el jefe
+            if (boss.appearances.isNotEmpty()) {
+                Text(
+                    text = "Aparece en:",
+                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                    color = Color.Black
+                )
+                boss.appearances.forEach { gameName ->
+                    Text(
+                        text = "- $gameName",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Black
+                    )
+                }
+            } else {
+                Text(
+                    text = "No tiene juegos asociados",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Black
                 )
             }
         }
