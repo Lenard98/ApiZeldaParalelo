@@ -36,7 +36,7 @@ fun TopBarComponent() {
                     color = Color.White
                 ),
                 modifier = Modifier
-                    .padding(top = 10.dp)
+                    .padding(top = 20.dp)
                     .fillMaxWidth(),
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
