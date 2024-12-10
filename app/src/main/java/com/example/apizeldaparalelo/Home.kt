@@ -8,10 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.compose.rememberAsyncImagePainter
 
 @Composable
 fun HomeScreen() {
@@ -28,26 +26,22 @@ fun HomeScreen() {
             alignment = Alignment.Center,
         )
 
-        // Texto "APIZELDA"
-        Column(
+        // Texto "APIZELDA" en la parte superior
+        Text(
+            text = "APIZELDA",
+            style = MaterialTheme.typography.headlineLarge.copy(color = Color.White),
             modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(align = Alignment.Center)
-        ) {
-            Text(
-                text = "APIZELDA",
-                style = MaterialTheme.typography.headlineLarge.copy(color = Color.White),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
+                .align(Alignment.TopCenter) // Mover el texto a la parte superior
+                .padding(top = 32.dp) // Agregar un pequeño margen superior
+        )
 
         // Texto "®ADFLL" en la parte inferior
         Text(
             text = "®ADFLL",
             style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .align(Alignment.BottomEnd) // Posicionar en la esquina inferior derecha
+                .padding(16.dp) // Agregar un margen de 16.dp
         )
     }
 }

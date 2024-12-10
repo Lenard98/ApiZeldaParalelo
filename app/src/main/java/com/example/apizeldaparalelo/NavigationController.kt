@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apizeldaparalelo.implementacionAPI.ApiServices
+import com.example.apizeldaparalelo.implementacionAPI.BossesViewModel
 import com.example.apizeldaparalelo.implementacionAPI.CharacterViewModel
 import com.example.apizeldaparalelo.implementacionAPI.DungeonViewModel
 import com.example.apizeldaparalelo.implementacionAPI.GameViewModel
@@ -53,7 +54,11 @@ fun NavigationController(startDestination: String = "Home") {
                     MonsterScreen(viewModel = monsterViewModel, gameViewModel = gameViewModel)
                 }
                 composable(route = "Bosses") {
-                    Bosses()
+                    val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
+                    val bossesViewModel: BossesViewModel = remember { BossesViewModel(api) }
+                    val dungeonViewModel: DungeonViewModel = remember { DungeonViewModel(api) }
+                    val gameViewModel: GameViewModel = remember { GameViewModel(api) }
+                    BossesScreen(viewModel = bossesViewModel, dungeonViewModel = dungeonViewModel, gameViewModel = gameViewModel)
                 }
                 composable(route = "Dungeons") {
                     val api = RetroFitConfig.retrofit.create(ApiServices::class.java)
@@ -65,3 +70,4 @@ fun NavigationController(startDestination: String = "Home") {
         }
     }
 }
+

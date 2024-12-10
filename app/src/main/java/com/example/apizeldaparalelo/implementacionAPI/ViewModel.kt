@@ -3,6 +3,7 @@ package com.example.apizeldaparalelo.implementacionAPI
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.apizeldaparalelo.Modelos.Bosses
 import com.example.apizeldaparalelo.Modelos.Game
 import com.example.apizeldaparalelo.Modelos.Monster
 import com.example.apizeldaparalelo.Modelos.Character
@@ -123,6 +124,37 @@ class DungeonViewModel(private val api: ApiServices) : ViewModel() {
 
                 _error.value = "Error: ${e.message}"
                 Log.e("DungeonViewModel", "Error al realizar la solicitud: ${e.message}", e)
+            }
+        }
+    }
+}
+
+class BossesViewModel(private val api: ApiServices) : ViewModel() {
+
+    private val _bosses = MutableStateFlow<List<Bosses>>(emptyList())
+    val bosses: StateFlow<List<Bosses>> get() = _bosses
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> get() = _error
+
+    fun fetchBosses(limit: Int = 20) {
+        viewModelScope.launch {
+            try {
+                val response = api.getBosses(limit)
+
+                // Imprimir la respuesta de la API para verificar los datos en Logcat
+                Log.d("BossesViewModel", "API Response: $response")
+
+                if (response.success) {
+                    _bosses.value = response.data
+                } else {
+                    _error.value = "Error: No se pudieron cargar los bosses"
+                    Log.e("BossesViewModel", "Error en la respuesta: ${response.success}")
+                }
+            } catch (e: Exception) {
+                // Manejar errores de red o API
+                _error.value = "Error: ${e.message}"
+                Log.e("BossesViewModel", "Error al realizar la solicitud: ${e.message}", e)
             }
         }
     }
