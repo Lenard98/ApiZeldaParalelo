@@ -24,7 +24,7 @@ fun GameScreen(viewModel: GameViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0, 150, 23))
+            .background(color = Color(43, 114, 24))
             .padding(16.dp)
     ) {
         OutlinedTextField(
@@ -67,7 +67,7 @@ fun GameItem(game: Game) {
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(245, 241, 99))
+        colors = CardDefaults.cardColors(containerColor = Color(196, 175, 109))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(

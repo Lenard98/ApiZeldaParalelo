@@ -49,6 +49,7 @@ fun MonsterScreen(viewModel: MonsterViewModel, gameViewModel: GameViewModel) {
     // Llamada inicial para obtener los monstruos
     LaunchedEffect(Unit) {
         viewModel.fetchMonsters()
+        gameViewModel.fetchGames()
     }
 }
 
